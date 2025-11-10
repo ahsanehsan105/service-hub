@@ -1,8 +1,10 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import { DATABASE_CLOUD, DATABASE_LOCAL } from './config/config.js';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 import mongoose from 'mongoose';
+import { DATABASE_CLOUD, DATABASE_LOCAL } from './config/config.js';
 import authRoute from './routes/authRoute.js';
 import workerRoute from './routes/workerRoute.js';
 
