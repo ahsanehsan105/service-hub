@@ -21,6 +21,10 @@ app.use(cors());
 app.use("/api/v1", authRoute)
 app.use("/api/v1/workers", workerRoute)
 
+app.get("/", (req, res) => {
+  res.send("Service Hub API is running");
+});
+
 // start the server
 const port = 3000;
 app.listen(port, () => {
