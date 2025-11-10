@@ -29,3 +29,6 @@ app.listen(port, () => {
 mongoose.connect(DATABASE_CLOUD).then((con) =>
   console.log(`Database connected with ${con.connection.host}`)
 ).catch((err) => console.log(`Database connection error ${err.message}`));
+
+
+export default app;
