@@ -31,7 +31,7 @@ mongoose.set('strictQuery', false);
 // DB connection with retry logic
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(DATABASE_CLOUD, {
+    const conn = await mongoose.connect(process.env.DATABASE_CLOUD, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       serverSelectionTimeoutMS: 15000, // Timeout after 15s instead of 10s
@@ -53,6 +53,8 @@ const startServer = async () => {
   while (!isConnected) {
     isConnected = await connectDB();
     if (!isConnected) {
+      
+console.log("CLOUD DB URL:", process.env.DATABASE_CLOUD);
       console.log('Retrying database connection in 5 seconds...');
       await new Promise(resolve => setTimeout(resolve, 5000));
     }
