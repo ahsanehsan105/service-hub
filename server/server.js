@@ -25,16 +25,50 @@ app.get("/", (req, res) => {
   res.send("Service Hub API is running");
 });
 
-// start the server
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+// Configure mongoose
+mongoose.set('strictQuery', false);
+
+// DB connection with retry logic
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(DATABASE_CLOUD, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 15000, // Timeout after 15s instead of 10s
+      socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+    });
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    return true;
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    return false;
+  }
+};
+
+// Start server only after successful DB connection
+const startServer = async () => {
+  let isConnected = false;
+  
+  // Try to connect to DB with retries
+  while (!isConnected) {
+    isConnected = await connectDB();
+    if (!isConnected) {
+      console.log('Retrying database connection in 5 seconds...');
+      await new Promise(resolve => setTimeout(resolve, 5000));
+    }
+  }
+
+  // Start the server after successful DB connection
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+  });
+};
+
+// Start the application
+startServer().catch(err => {
+  console.error('Failed to start server:', err);
+  process.exit(1);
 });
-
-// DB connection
-mongoose.connect(process.env.DATABASE_CLOUD).then((con) =>
-  console.log(`Database connected with ${con.connection.host}`)
-).catch((err) => console.log(`Database connection error ${err.message}`));
-
 
 export default app;
