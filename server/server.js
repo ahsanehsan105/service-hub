@@ -14,19 +14,7 @@ const app = express();
 // apply middlewares
 app.use(express.json());
 app.use(morgan('dev'));
-
-// CORS configuration
-app.use(cors({
-  origin: '*',  // Allow all origins
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-  preflightContinue: true,
-  optionsSuccessStatus: 200
-}));
-
-// Handle OPTIONS preflight requests
-app.options('*', cors());
+app.use(cors());
 
 
 // test route
