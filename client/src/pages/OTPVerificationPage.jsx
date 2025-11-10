@@ -16,7 +16,7 @@ export default function OTPVerificationPage() {
   const [pendingEmail, setPendingEmail] = useState(null)
   const navigate = useNavigate()
   const { saveAuth } = useAuth()
-  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000/api/v1"
+  const API_BASE = import.meta.env.VITE_API_URL || "https://service-hub-green.vercel.app/api/v1"
 
   useEffect(() => {
     try {

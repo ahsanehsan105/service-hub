@@ -55,7 +55,7 @@ export default function WorkerProfilePage() {
     setLoading(true)
 
     try {
-      const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000/api/v1"
+      const API_BASE = import.meta.env.VITE_API_URL || "https://service-hub-green.vercel.app/api/v1"
       const token = localStorage.getItem("token")
       const res = await fetch(`${API_BASE}/workers/profile`, {
         method: "POST",

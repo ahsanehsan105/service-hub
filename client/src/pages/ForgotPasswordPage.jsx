@@ -20,7 +20,7 @@ export default function ForgotPasswordPage() {
   // inline error box removed; use toast for errors
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000/api/v1"
+  const API_BASE = import.meta.env.VITE_API_URL || "https://service-hub-green.vercel.app/api/v1"
 
   const handleEmailSubmit = async (e) => {
     e.preventDefault()

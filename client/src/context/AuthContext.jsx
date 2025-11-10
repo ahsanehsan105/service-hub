@@ -18,7 +18,7 @@ export function AuthProvider({ children }) {
     setLoading(false)
   }, [])
 
-  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000/api/v1"
+  const API_BASE = import.meta.env.VITE_API_URL || "https://service-hub-green.vercel.app/api/v1"
 
   // Note: signup, OTP verification and password reset flows are handled by their
   // respective pages/components and call the APIs directly. AuthContext is only
