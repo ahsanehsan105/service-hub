@@ -146,18 +146,33 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-border bg-card">
-          <div className="px-4 py-4 space-y-4">
-            <NavLink to="/services" onClick={() => setMobileMenuOpen(false)} className={navLinkClass}>
+        <div className="md:hidden border-t border-border bg-card shadow-inner">
+          <div className="px-4 py-4 space-y-3 flex flex-col">
+            <NavLink
+              to="/services"
+              onClick={() => setMobileMenuOpen(false)}
+              className={(navData) => `${navLinkClass(navData)} block px-4 py-3 rounded-lg text-base font-medium hover:bg-muted transition-colors`}
+            >
               Services
             </NavLink>
-            <NavLink to="/about" onClick={() => setMobileMenuOpen(false)} className={navLinkClass}>
+
+            <NavLink
+              to="/about"
+              onClick={() => setMobileMenuOpen(false)}
+              className={(navData) => `${navLinkClass(navData)} block px-4 py-3 rounded-lg text-base font-medium hover:bg-muted transition-colors`}
+            >
               About
             </NavLink>
-            <NavLink to="/contact" onClick={() => setMobileMenuOpen(false)} className={navLinkClass}>
+
+            <NavLink
+              to="/contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className={(navData) => `${navLinkClass(navData)} block px-4 py-3 rounded-lg text-base font-medium hover:bg-muted transition-colors`}
+            >
               Contact
             </NavLink>
-            <div className="pt-4 border-t border-border space-y-2">
+
+            <div className="pt-3 border-t border-border space-y-2">
               {auth ? (
                 <>
                   {auth.role === "worker" && (
@@ -166,9 +181,9 @@ export default function Header() {
                         setMobileMenuOpen(false)
                         handleProfileClick()
                       }}
-                      className="w-full text-left px-4 py-2 text-sm text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
+                      className="w-full text-left px-4 py-3 text-base text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-3"
                     >
-                      <User size={16} />
+                      <User size={18} />
                       Profile
                     </button>
                   )}
@@ -177,21 +192,25 @@ export default function Header() {
                       setMobileMenuOpen(false)
                       handleLogout()
                     }}
-                    className="w-full text-left px-4 py-2 text-sm text-destructive hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
+                    className="w-full text-left px-4 py-3 text-base text-destructive hover:bg-muted rounded-lg transition-colors flex items-center gap-3"
                   >
-                    <LogOut size={16} />
+                    <LogOut size={18} />
                     Logout
                   </button>
                 </>
               ) : (
                 <>
-                  <NavLink to="/signin" onClick={() => setMobileMenuOpen(false)} className={navButtonClass}>
+                  <NavLink
+                    to="/signin"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={(navData) => `${navButtonClass(navData)} block w-full text-center`}
+                  >
                     Sign In
                   </NavLink>
                   <NavLink
                     to="/signup"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block px-4 py-2 text-center bg-gradient-to-r from-primary to-secondary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity"
+                    className="block px-4 py-3 text-center bg-gradient-to-r from-primary to-secondary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity"
                   >
                     Sign Up
                   </NavLink>
