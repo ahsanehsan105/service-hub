@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 import Header from "../components/Header"
 import Footer from "../components/Footer"
 import { useAuth } from "../context/AuthContext"
@@ -49,7 +50,7 @@ export default function BookingsPage() {
                       <div className="text-sm text-muted-foreground">{new Date(b.createdAt).toLocaleString()}</div>
                       <div className="flex items-center gap-2">
                         <button onClick={() => alert(JSON.stringify(b, null, 2))} className="px-3 py-1 rounded-lg border border-border text-sm">View Invoice</button>
-                        <a href="/contact" className="px-3 py-1 rounded-lg border border-border text-sm">Support</a>
+                        <Link to="/contact" className="px-3 py-1 rounded-lg border border-border text-sm">Support</Link>
                       </div>
                     </div>
                   </div>

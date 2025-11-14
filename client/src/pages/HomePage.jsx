@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 import { ArrowRight, Zap } from "lucide-react"
 import Header from "../components/Header"
 import HeroSection from "../components/HeroSection"
@@ -51,19 +52,19 @@ function CTASection() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a
-                href="/services"
+              <Link
+                to="/services"
                 className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-primary to-secondary text-primary-foreground font-semibold rounded-lg hover:opacity-90 transition-all duration-300 group/btn hover:shadow-lg hover:shadow-primary/50"
               >
                 Get Started Today
                 <ArrowRight className="w-5 h-5 transition-transform group-hover/btn:translate-x-1" />
-              </a>
-              <a
-                href="/about"
+              </Link>
+              <Link
+                to="/about"
                 className="inline-flex items-center gap-2 px-8 py-3 bg-muted text-foreground font-semibold rounded-lg hover:bg-primary/10 transition-all duration-300"
               >
                 Learn More
-              </a>
+              </Link>
             </div>
 
             {/* Bottom info */}

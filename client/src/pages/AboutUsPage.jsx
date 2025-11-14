@@ -2,6 +2,7 @@
 
 import Header from "../components/Header"
 import Footer from "../components/Footer"
+import { Link } from "react-router-dom"
 import { ArrowRight, Shield, Users, Star, Clock, MessageSquare, CheckCircle2, Award } from "lucide-react"
 import CountUpSection from "../components/CountUpSection"
 import { useScrollAnimation } from "../hooks/useScrollAnimation"
@@ -241,18 +242,18 @@ export default function AboutUsPage() {
           <div className="absolute inset-0 -z-10">
             <div className="absolute top-1/2 right-0 w-96 h-96 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-3xl opacity-50 -translate-y-1/2" />
           </div>
-          <div className={`max-w-3xl mx-auto text-center transition-all duration-700 ${ctaVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
+            <div className={`max-w-3xl mx-auto text-center transition-all duration-700 ${ctaVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
             <h2 className="text-3xl sm:text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Ready to Get Started?</h2>
             <p className="text-lg text-muted-foreground mb-8">
               Join thousands of satisfied customers who have found reliable professionals through ServiceHub.
             </p>
-            <a
-              href="/services"
+            <Link
+              to="/services"
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-secondary text-primary-foreground font-semibold rounded-lg hover:opacity-90 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/50"
             >
               Browse Services
               <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </a>
+            </Link>
           </div>
         </section>
       </main>
