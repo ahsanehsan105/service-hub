@@ -20,19 +20,19 @@ export default function ContactUsPage() {
     {
       icon: Mail,
       title: "Email",
-      content: "support@servicehub.com",
+      content: "ahsanehsan00@gmail.com",
       color: "from-blue-500 to-cyan-500"
     },
     {
       icon: Phone,
       title: "Phone",
-      content: "+1 (555) 123-4567",
+      content: "+92 309 0536105",
       color: "from-green-500 to-emerald-500"
     },
     {
       icon: MapPin,
       title: "Address",
-      content: "123 Service Lane, Tech City, TC 12345",
+      content: "Okara, Punjab, Pakistan",
       color: "from-purple-500 to-pink-500"
     },
     {
