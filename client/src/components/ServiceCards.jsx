@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom"
+import { useEffect, useState, useRef } from "react"
+import { useScrollAnimation } from "../hooks/useScrollAnimation"
 
 export default function ServiceCards() {
+  const { ref, isVisible } = useScrollAnimation()
+  const cardRefsMap = useRef({})
+  const [visibleCards, setVisibleCards] = useState({})
+
   const services = [
     {
       id: "plumber",
@@ -44,10 +50,39 @@ export default function ServiceCards() {
     },
   ]
 
+  // Setup observers for each card
+  useEffect(() => {
+    const observers = {}
+    
+    Object.entries(cardRefsMap.current).forEach(([index, cardRef]) => {
+      if (!cardRef) return
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setVisibleCards(prev => ({ ...prev, [index]: true }))
+            observer.unobserve(entry.target)
+          }
+        },
+        { threshold: 0.1 }
+      )
+
+      observer.observe(cardRef)
+      observers[index] = observer
+    })
+
+    return () => {
+      Object.values(observers).forEach(observer => observer && observer.disconnect())
+    }
+  }, [])
+
   return (
-    <section id="services" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
+    <section ref={ref} className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30 relative overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-3xl opacity-50" />
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
             Our{" "}
             <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Services</span>
@@ -59,7 +94,20 @@ export default function ServiceCards() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, index) => (
-            <Link key={service.id} to={service.link} className="group cursor-pointer">
+            <Link 
+              key={service.id} 
+              to={service.link} 
+              ref={(el) => {
+                if (el) {
+                  cardRefsMap.current[index] = el
+                }
+              }}
+              className={`group cursor-pointer transition-all duration-700 ${
+                visibleCards[index]
+                  ? "opacity-100 translate-x-0" 
+                  : "opacity-0 translate-x-12"
+              }`}
+            >
               <div className="relative h-full bg-card rounded-xl border border-border overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary hover:scale-105">
                 {/* Background Image */}
                 <div className="absolute inset-0">
@@ -76,7 +124,7 @@ export default function ServiceCards() {
                 {/* Content */}
                 <div className="relative p-6 h-full flex flex-col">
                   {/* Icon */}
-                  <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">{service.icon}</div>
+                  <div className={`text-4xl mb-4 group-hover:scale-110 transition-all duration-300 ${visibleCards[index] && index % 2 === 0 ? "animate-bounce" : ""}`} style={{animationDelay: `${index * 0.1}s`}}>{service.icon}</div>
 
                   {/* Title */}
                   <h3 className="text-2xl font-bold text-foreground mb-2">{service.name}</h3>

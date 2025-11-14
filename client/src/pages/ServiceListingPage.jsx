@@ -25,9 +25,16 @@ export default function ServiceListingPage() {
   })
   const [searchQuery, setSearchQuery] = useState("")
   const [professionals, setProfessionals] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    setIsVisible(true)
+  }, [])
 
   useEffect(() => {
     const abort = { aborted: false }
+    setIsLoading(true)
     const API_BASE = import.meta.env.VITE_API_URL || "https://service-hub-green.vercel.app/api/v1"
     ;(async () => {
       try {
@@ -35,17 +42,20 @@ export default function ServiceListingPage() {
         const json = await res.json()
         if (!res.ok) {
           console.warn("Could not load workers", json.error || json.message)
-          setProfessionals([])
+          if (!abort.aborted) setProfessionals([])
           return
         }
         if (!abort.aborted) setProfessionals(json.workers || [])
       } catch (err) {
         console.error("fetch workers error", err)
         if (!abort.aborted) setProfessionals([])
+      } finally {
+        if (!abort.aborted) setIsLoading(false)
       }
     })()
     return () => { abort.aborted = true }
   }, [serviceType])
+
   const serviceName = serviceNames[serviceType] || "Service"
 
   const filteredAndSorted = useMemo(() => {
@@ -71,6 +81,25 @@ export default function ServiceListingPage() {
     return result
   }, [professionals, filters, searchQuery])
 
+  // Skeleton Card Component
+  const SkeletonCard = () => (
+    <div className="bg-card border border-border rounded-xl overflow-hidden">
+      <div className="h-48 bg-muted animate-pulse" />
+      <div className="p-6">
+        <div className="h-6 bg-muted rounded-lg mb-3 animate-pulse" />
+        <div className="h-4 bg-muted rounded-lg mb-4 w-1/2 animate-pulse" />
+        <div className="flex gap-1 mb-3">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="w-4 h-4 bg-muted rounded-full animate-pulse" />
+          ))}
+        </div>
+        <div className="h-4 bg-muted rounded-lg mb-4 animate-pulse" />
+        <div className="h-8 bg-muted rounded-lg mb-4 animate-pulse" />
+        <div className="h-10 bg-muted rounded-lg animate-pulse" />
+      </div>
+    </div>
+  )
+
   return (
     <main className="min-h-screen bg-background">
       <Header />
@@ -86,7 +115,7 @@ export default function ServiceListingPage() {
       </div>
 
       <div className="bg-gradient-to-r from-primary/10 to-secondary/10 border-b border-border py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+        <div className={`max-w-7xl mx-auto transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <h1 className="text-4xl font-bold text-foreground mb-2">Find Professional {serviceName}s</h1>
           <p className="text-lg text-muted-foreground">
             Browse verified and experienced {serviceName.toLowerCase()}s ready to help
@@ -107,7 +136,9 @@ export default function ServiceListingPage() {
 
           <div className="md:col-span-3">
             <div className="mb-6 flex justify-between items-center">
-              <p className="text-muted-foreground">Showing {filteredAndSorted.length} results</p>
+              <p className="text-muted-foreground">
+                {isLoading ? "Loading..." : `Showing ${filteredAndSorted.length} results`}
+              </p>
               <select
                 value={filters.sortBy}
                 onChange={(e) => setFilters({ ...filters, sortBy: e.target.value })}
@@ -119,14 +150,26 @@ export default function ServiceListingPage() {
               </select>
             </div>
 
-            {filteredAndSorted.length > 0 ? (
+            {isLoading ? (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredAndSorted.map((professional) => (
-                  <ServiceProfessionalCard
+                {[...Array(6)].map((_, i) => (
+                  <SkeletonCard key={i} />
+                ))}
+              </div>
+            ) : filteredAndSorted.length > 0 ? (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredAndSorted.map((professional, index) => (
+                  <div
                     key={professional.id}
-                    professional={professional}
-                    serviceType={serviceType}
-                  />
+                    style={{
+                      animationDelay: `${index * 50}ms`
+                    }}
+                  >
+                    <ServiceProfessionalCard
+                      professional={professional}
+                      serviceType={serviceType}
+                    />
+                  </div>
                 ))}
               </div>
             ) : (
