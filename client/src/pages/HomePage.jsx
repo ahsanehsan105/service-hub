@@ -43,10 +43,6 @@ function CTASection() {
 
           {/* Card Content */}
           <div className="relative bg-gradient-to-r from-primary/5 to-secondary/5 border border-primary/20 backdrop-blur-sm rounded-2xl p-12 sm:p-16 text-center transition-all duration-300 group-hover:border-primary/50">
-            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-primary to-secondary mb-6 animate-pulse">
-              <Zap className="w-6 h-6 text-primary-foreground" />
-            </div>
-
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
               Ready to find your service provider?
             </h2>

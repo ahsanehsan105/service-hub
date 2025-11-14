@@ -1,5 +1,3 @@
-"use client"
-
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 import Header from "../components/Header"
@@ -19,7 +17,7 @@ export default function ServicesPage() {
           
           {/* Info Box */}
           {!auth && (
-            <div className="mt-12 p-8 bg-primary/10 border-2 border-primary rounded-2xl text-center">
+            <div className="my-10 mx-24 mt-12 p-8 bg-primary/10 border-2 border-primary rounded-2xl text-center">
               <h3 className="text-xl font-bold text-foreground mb-2">Sign In to Browse Professionals</h3>
               <p className="text-muted-foreground mb-6">
                 You need to be signed in to view available service professionals and book appointments.
